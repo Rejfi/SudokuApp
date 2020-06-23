@@ -1,5 +1,6 @@
 package com.example.sudokuapp.network
 
+import br.com.jeancsanchez.restinterceptor.RestErrorInterceptor
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -14,10 +15,13 @@ import javax.net.ssl.X509TrustManager
 
 object SudokuClient {
 
+    private val errorInterceptor = RestErrorInterceptor()
+
     private val client = getUnsafeOkHttpClient()
+        .addInterceptor(errorInterceptor)
         .build()
 
-    val instance by lazy {
+    val instance: SudokuApi by lazy {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://sugoku.herokuapp.com/")
             .addCallAdapterFactory(CoroutineCallAdapterFactory())

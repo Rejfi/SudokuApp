@@ -3,12 +3,14 @@ package com.example.sudokuapp.ui
 import androidx.lifecycle.Observer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
 import com.example.sudokuapp.R
 import com.example.sudokuapp.data.Cell
 import com.example.sudokuapp.ui.custom.SudokuBoardView
 import com.example.sudokuapp.viewmodels.SudokuGameViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_play_sudoku.*
 
 class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener {
@@ -40,7 +42,15 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
         }
 
         deleteButton.setOnClickListener { viewModel.delete() }
-        checkButton.setOnClickListener { viewModel.checkSudoku()}
+        checkButton.setOnClickListener {
+            if (viewModel.checkSudoku()) {
+                winText.text = getString(R.string.win_text)
+                winText.visibility = View.VISIBLE
+            } else {
+                Snackbar.make(gameLayout, "Are you sure? Check again", Snackbar.LENGTH_LONG)
+                    .show()
+            }
+        }
     }
 
     private fun updateCells(cells: List<Cell>?) = cells?.let {
@@ -54,4 +64,6 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
     override fun onCellTouched(row: Int, col: Int) {
         viewModel.updateSelectedCell(row, col)
     }
+
+
 }

@@ -13,7 +13,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     private var sqrtSize = 3
     private var size = 9
 
-    // these are set in onDraw
     private var cellSizePixels = 0F
     private var noteSizePixels = 0F
 
@@ -24,6 +23,7 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
 
     private var cells: List<Cell>? = null
 
+    //Style of views (lines, number, cells itp.)
     private val thickLinePaint = Paint().apply {
         style = Paint.Style.STROKE
         color = Color.BLACK
@@ -72,7 +72,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
         val sizePixels = min(widthMeasureSpec, heightMeasureSpec)
         setMeasuredDimension(sizePixels, sizePixels)
     }
-
     override fun onDraw(canvas: Canvas) {
         updateMeasurements(width)
         fillCells(canvas)
@@ -106,11 +105,19 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
     }
 
     private fun fillCell(canvas: Canvas, r: Int, c: Int, paint: Paint) {
-        canvas.drawRect(c * cellSizePixels, r * cellSizePixels, (c + 1) * cellSizePixels, (r + 1) * cellSizePixels, paint)
+        canvas.drawRect(c * cellSizePixels,
+            r * cellSizePixels,
+            (c + 1) * cellSizePixels,
+            (r + 1) * cellSizePixels,
+            paint)
     }
 
     private fun drawLines(canvas: Canvas) {
-        canvas.drawRect(0F, 0F, width.toFloat(), height.toFloat(), thickLinePaint)
+        canvas.drawRect(0F,
+            0F,
+            width.toFloat(),
+            height.toFloat(),
+            thickLinePaint)
 
         for (i in 1 until size) {
             val paintToUse = when (i % sqrtSize) {
@@ -152,8 +159,10 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
                 val textWidth = paintToUse.measureText(valueString)
                 val textHeight = textBounds.height()
 
-                canvas.drawText(valueString, (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
-                        (row * cellSizePixels) + cellSizePixels / 2 + textHeight / 2, paintToUse)
+                canvas.drawText(valueString,
+                    (col * cellSizePixels) + cellSizePixels / 2 - textWidth / 2,
+                    (row * cellSizePixels) + cellSizePixels / 2 + textHeight / 2,
+                    paintToUse)
 
             }
         }

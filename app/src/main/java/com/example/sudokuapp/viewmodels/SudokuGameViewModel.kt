@@ -14,8 +14,8 @@ import retrofit2.Response
 
 class SudokuGameViewModel: ViewModel() {
 
-    var selectedCellLiveData = MutableLiveData<Pair<Int, Int>>()
-    var cellsLiveData = MutableLiveData<List<Cell>>()
+    val selectedCellLiveData = MutableLiveData<Pair<Int, Int>>()
+    val cellsLiveData = MutableLiveData<List<Cell>>()
     var isGameStarted: Boolean = false
 
     private var selectedRow = -1
@@ -37,7 +37,16 @@ class SudokuGameViewModel: ViewModel() {
                     board = Board(9, cellsLiveData.value!!)
                     Log.d("FETCH_DEBUG", sudoku.body().toString())
                 }
-            }else board = Board(9, emptyList())
+            }else {
+                //If someone start game without correct board fill them zeros
+                val emptyListOfCells = ArrayList<Cell>()
+                for(i in 0 until 9)
+                    for(j in 0 until 9){
+                        val cell = Cell(i,j,0,false)
+                        emptyListOfCells.add(cell)
+                    }
+                board = Board(9, emptyListOfCells.toList())
+            }
         }
 
     }
@@ -81,20 +90,12 @@ class SudokuGameViewModel: ViewModel() {
     }
 
     fun checkSudoku(): Boolean {
-        val array= Array(9, {IntArray(9)})
+        val array= Array(9) {IntArray(9)}
         val cell = cellsLiveData.value
             cell!!.forEach {
-                Log.d("CHECK_DEBUG", "[${it.row}, ${it.col}]::${it.value}")
                 array[it.row][it.col] = it.value
             }
-       /*
-        for (x in 0 until 9){
-            for(y in 0 until 9){
-                Log.d("CHECK_DEBUG", "[$x,$y] = ${array[x][y]}")
-            }
-        }
 
-        */
         Log.d("CHECK_DEBUG", checkRowsColumnsSectors(array).toString())
 
         return checkRowsColumnsSectors(array)
