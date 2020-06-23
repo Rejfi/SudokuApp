@@ -148,7 +148,6 @@ class SudokuBoardView(context: Context, attributeSet: AttributeSet) : View(conte
             val value = cell.value
 
             if (value != 0) {
-                // draw notes
                 val row = cell.row
                 val col = cell.col
                 val valueString = cell.value.toString()

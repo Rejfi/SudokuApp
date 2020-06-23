@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.sudokuapp.R
 import com.example.sudokuapp.data.Cell
 import com.example.sudokuapp.ui.custom.SudokuBoardView
@@ -41,12 +42,20 @@ class PlaySudokuActivity : AppCompatActivity(), SudokuBoardView.OnTouchListener 
             button.setOnClickListener { viewModel.handleInput(index + 1) }
         }
 
+        if(viewModel.winMessage == getString(R.string.win_text)){
+            winText.text = viewModel.winMessage
+            winText.visibility = View.VISIBLE
+        }
+
         deleteButton.setOnClickListener { viewModel.delete() }
         checkButton.setOnClickListener {
             if (viewModel.checkSudoku()) {
-                winText.text = getString(R.string.win_text)
+                viewModel.winMessage = getString(R.string.win_text)
+                winText.text = viewModel.winMessage
                 winText.visibility = View.VISIBLE
             } else {
+                winText.visibility = View.GONE
+                viewModel.winMessage = "Incorrect"
                 Snackbar.make(gameLayout, "Are you sure? Check again", Snackbar.LENGTH_LONG)
                     .show()
             }

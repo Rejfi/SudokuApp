@@ -8,7 +8,7 @@ object SudokuRepository {
 
    suspend fun getSudokuBoard(diff: String): Response<SudokuBoard>? {
        return try {
-           sudokuApi.getSudokuBoard(diff).await()
+           sudokuApi.getSudokuBoardAsync(diff).await()
        }catch (t: Throwable){
            null
        }

@@ -17,6 +17,7 @@ class SudokuGameViewModel: ViewModel() {
     val selectedCellLiveData = MutableLiveData<Pair<Int, Int>>()
     val cellsLiveData = MutableLiveData<List<Cell>>()
     var isGameStarted: Boolean = false
+    var winMessage = ""
 
     private var selectedRow = -1
     private var selectedCol = -1

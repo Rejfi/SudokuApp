@@ -8,7 +8,7 @@ import retrofit2.http.*
 interface SudokuApi {
 
     @GET("board")
-    fun getSudokuBoard(@Query("difficulty") diff:String): Deferred<Response<SudokuBoard>>
+    fun getSudokuBoardAsync(@Query("difficulty") diff:String): Deferred<Response<SudokuBoard>>
 
 }
 
