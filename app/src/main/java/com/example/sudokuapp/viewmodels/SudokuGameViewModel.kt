@@ -39,7 +39,8 @@ class SudokuGameViewModel: ViewModel() {
                     Log.d("FETCH_DEBUG", sudoku.body().toString())
                 }
             }else {
-                //If someone start game without correct board fill them zeros
+                ////If someone start game without correct board fill them zeros
+                //(someone has broken network checking, the game isn't crushing after select cell)
                 val emptyListOfCells = ArrayList<Cell>()
                 for(i in 0 until 9)
                     for(j in 0 until 9){
@@ -58,7 +59,7 @@ class SudokuGameViewModel: ViewModel() {
             for(i in 0 until 9){
                 for (j in 0 until 9){
                     val cell = Cell(i, j, sudokuBoard.board[i][j], sudokuBoard.board[i][j] != 0)
-                    Log.d("CELL_VAL_DEBUG", "[${cell.row},${cell.col}]:: ${cell.value}")
+                    Log.d("CELL_VAL_DEBUG", "[${cell.row},${cell.col}]::${cell.value}")
                     array.add(cell)
                 }
             }
